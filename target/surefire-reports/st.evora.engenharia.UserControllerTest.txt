@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: st.evora.engenharia.UserControllerTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 3.018 s <<< FAILURE! - in st.evora.engenharia.UserControllerTest
+testExportPdf  Time elapsed: 0.298 s  <<< FAILURE!
+java.lang.AssertionError: Status expected:<200> but was:<302>
+	at st.evora.engenharia.UserControllerTest.testExportPdf(UserControllerTest.java:54)
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<link href="/webjars/bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet" />
+<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/main.js" th:src="@{/main.js}"></script>
+
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<meta charset="ISO-8859-1">
+<title>Editar Contadores</title>
+</head>
+<body>
+<style>
+
+a {
+		margin-right: 900px;
+		margin-left: -171px;	
+}
+#btnGuardar{
+	
+	margin-left: -1025px;
+}
+#btnListaContador{
+	font-size:30px;
+	margin-left: -210px;
+}
+
+</style>
+	<div class="container">
+		<div align="center"> 
+        <h1>Editar Contador</h1>
+        &nbsp &nbsp &nbsp &nbsp <a id="btnListaContador" 
+        class="material-icons" 
+        href="/contadores"
+        role="button" 
+        title="Listar Contadores">undo</a>
+        <br /><br />
+        <form action="#" th:action="@{'/contadores/updatecontador/' + ${contador.idcontador}}" th:object="${contador}"
+            method="post">
+ 
+           	<div class="form-group">
+                
+                <div class ="form-group">
+							<input
+							type = "text"
+							name = "conta_numero"
+							th:field = "*{conta_numero}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				 <div class ="form-group">
+							<input
+							type = "text"
+							name = "numero_contador"
+							th:field = "*{numero_contador}"
+							class = "form-control"			
+							/>
+				</div>
+				<!--
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "latitude"
+							th:field = "*{latitude}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "longitude"
+							th:field = "*{longitude}"
+							class = "form-control"			
+							/>
+				</div>
+				-->
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "leitura_anterior"
+							th:field = "*{leitura_anterior}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "nova_leitura"
+							th:field = "*{nova_leitura}"
+							class = "form-control"			
+							/>
+				</div>
+				<!--
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "ramal"
+							th:field = "*{ramal}"
+							class = "form-control"			
+							/>
+				</div>
+				-->
+				<div class="form-group">
+							<label> Selecione o Ramal:</label>
+							<select name="ramal" class="form-control">
+								<option th:each="ramalOpt : ${T(st.evora.engenharia.enums.Ramal).values()}"
+									th:value="${ramalOpt}" 
+									th:text="${ramalOpt}"
+									th:field = "*{ramal}"></option>
+							</select>
+				</div>
+				
+				<div class="form-group">
+							<label> Selecione a Amperagem:</label>
+							<select name="amperagem" class="form-control">
+								<option th:each="amperagemOpt : ${T(st.evora.engenharia.enums.Amperagem).values()}"
+									    th:value="${amperagemOpt}" th:text="${amperagemOpt}" 
+                                        th:field = "*{amperagem}"></option>
+							</select>
+				</div>
+				<!-- 		   
+				<div class ="form-group">
+							<label for="recipient-name">Descrição</label>
+							<textarea class="form-control"
+							type = "text"
+							name = "descricao"
+							th:value="${descricao}"
+							th:field = "*{descricao}">
+							
+							</textarea>		
+							
+				</div>
+				-->
+           	</div>                          
+                <tr>
+                    <td colspan="2"><button id="btnGuardar" type="submit" class="btn btn-outline-success">Guardar</button> </td>
+                </tr>
+ 
+ 
+ 
+        </form>
+    </div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Gestão de Contadores</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-md bg-info navbar-dark">
+	</nav>
+
+	<style>
+		#btnVoltar {
+			font-size: 30px;
+			margin-left: 0px;
+			color: #17a2b8;
+		}
+
+		#btnSearch {
+
+			color: #17a2b8;
+			border: 0px;
+			background-color: transparent;
+			font-size: 30px;
+			margin-left: 450px;
+			margin-top: -90px !important;
+		}
+
+		#btnClear {
+
+			color: red;
+			border: 0px;
+			background-color: transparent;
+			font-size: 30px;
+			margin-left: 500px;
+			margin-top: -300px !important;
+		}
+
+		#keyword {
+			width: 80%;
+		}
+	</style>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div id="container" class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+				<h1 class="text-center"> Adicionar novo Contador </h1>
+				<div class="card-body">
+
+					<div class="card-body">
+						<a id="btnVoltar" class="material-icons" title="Lista de Clientes" th:href="@{/contadores}"
+							role="button">undo</a> <br /><br />
+						<form th:action="@{/contadores/save}" th:object="${contador}" method="POST">
+
+
+							<div class="form-group">
+								<b> Nº de Conta: </b>
+								<input type="text" name="conta_numero" th:field="*{conta_numero}" class="form-control"
+									placeholder="Nº de Conta" />
+							</div>
+
+							<div class="form-group">
+								<b> Nº Contador: </label>
+									<input type="text" name="numero_contador" th:field="*{numero_contador}"
+										class="form-control" placeholder="Nº de Contador" />
+							</div>
+
+							<div class="form-group">
+								<b> Latitude: </label>
+									<input type="text" name="latitude" th:field="*{latitude}" class="form-control"
+										placeholder="Latitude" />
+							</div>
+
+							<div class="form-group">
+								<b> Longitude: </label>
+									<input type="text" name="longitude" th:field="*{longitude}" class="form-control"
+										placeholder="Longitude" />
+							</div>
+
+							<div class="form-group">
+								<b> Leitura Anterior: </b>
+								<input type="text" name="leitura_anterior" th:field="*{leitura_anterior}"
+									class="form-control" placeholder="Leitura Anterior" />
+							</div>
+
+							<div class="form-group">
+								<b> Nova Leitura: </b>
+								<input type="text" name="nova_leitura" th:field="*{nova_leitura}" class="form-control"
+									placeholder="Nova Leitura" />
+							</div>
+
+							<div class="form-group">
+								<select name="descricao" id="descricao" th:select="*{descricao}" class="form-control">
+									<option> Selecione Amperagem: </option>
+									<option> 60A </option>
+									<option> 80A </option>
+									<option> 90A </option>
+								</select>
+							</div>
+
+							<div class="form-group">
+
+								<select name="ramal" id="ramal" th:select="*{ramal}" class="form-control">
+									<option> Selecione o Ramal: </option>
+									<option> Trifásico </option>
+									<option> Monofásico </option>
+									<option> Híbrido </option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<select class="form-control" id="dropDownList">
+									<option value="0">Associar Cliente</option>
+									<option th:each="option : ${clientes}" th:value="${clientes}" th:text="${clientes}">
+									</option>
+								</select>
+
+							</div>
+							<div class="box-footer">
+								<button type="submit" class="btn btn-outline-success">
+									Guardar
+								</button>
+							</div>
+						</form>
+
+					</div>
+				</div>
+
+				<tbody id="myTable">
+
+
+					<tr th:each="cliente: ${listClientes}">
+
+						<td th:text="${cliente.idcliente}"></td>
+						<td th:text="${cliente.nome}"></td>
+						<td th:text="${cliente.email}"></td>
+						<td th:text="${cliente.telefone}"></td>
+						<td th:text="${cliente.endereco}"></td>
+						<td th:text="${cliente.nip}"></td>
+						<td th:text="${cliente.descricao}"></td>
+
+						<!--
+					<td th:text="${cliente.contador.conta_numero}"></td>
+					<td th:text="${cliente.contador.numero_contador}"></td>
+					<td th:text="${cliente.contador.ramal}"></td>
+					<td th:text="${cliente.contador.descricao}"></td>
+					-->
+
+					</tr>
+				</tbody>
+
+
+				<button class="material-icons" id="btnSearch" type="text" value="Search">search</button>
+				<button class="material-icons" type="button" value="Clear" id="btnClear"
+					onclick="clearSearch()">clear</button>
+			</div>
+		</div>
+
+		<!--  BEGIN Script Filtrar Cliente -->
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$("#myInput").on("keyup", function () {
+					var value = $(this).val().toLowerCase();
+					$("#myTable tr").filter(function () {
+						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+					});
+				});
+			});
+		</script>
+
+		<!--  END Script Filtrar Cliente -->
+
+
+		<!--  BEGIN Script Limpar pesquisa Cliente -->
+
+		<script type="text/javascript">
+			function clearSearch() {
+				window.location = "[[@{/contadores}]]";
+			}
+		</script>
+
+
+</body>
+
+</html>

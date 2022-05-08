@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+	<link href="/webjars/bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet" />
+	<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../static/cliente.js" th:src="@{/cliente.js}"></script>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	
+	
+	<meta charset="ISO-8859-1">
+	<title>Gestão de Clientes</title>
+</head>
+
+<body>
+
+<style>
+		#btnEdit {
+			color: darkorange;
+			font-size: 30px;
+		}
+
+		#btnAdicionar {
+			font-size: 30px;
+			color: #17a2b8;
+			border: 0px;
+			background-color: transparent;
+			font-size: 30px;
+		}
+
+		#btnHome {
+			font-size: 30px;
+			color: #17a2b8;
+
+		}
+		#btnPrint {
+			font-size: 30px;
+			color: #17a2b8;
+		}
+		#btnSearch {
+
+			color: #17a2b8;
+			border: 0px;
+			background-color: transparent;
+			font-size: 30px;
+		}
+		#btnCancel {
+			color: red;
+			border: 0px;
+			background-color: transparent;
+			font-size: 30px;
+
+		}
+		
+		#btnSave {
+
+			color: green;
+			border: 0px;
+			background-color: transparent;
+			font-size: 30px;
+		}
+		
+		#delRef {
+
+			color: green;
+			border: 0px;
+			background-color: transparent;
+			font-size: 30px;
+		}
+
+		#btnClear {
+
+			color: red;
+			border: 0px;
+			background-color: transparent;
+			font-size: 30px;
+			margin-right: 100px;
+		}
+		#aLink{
+			
+			color: orange;
+		}
+
+		.table-responsive {
+			display: table;
+		}
+	</style>
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+		<div>
+			<h6></h6>
+		</div>
+		</div>
+	</nav>
+	<br>
+
+	<div role="main" class="table-responsive">
+
+		<div class="table-responsive">
+			<H2 style="text-align: center;">Lista de Clientes</H2>
+			<br>
+			<span>
+				<th:explod th:include="mensagem-validacao"></th:explod>
+			</span>
+			&nbsp &nbsp;
+			<a id="btnHome" class="material-icons" href="/" role="button" title="Menu Principal">home</a>
+			&nbsp; &nbsp;
+			<button id="btnAdicionar" 
+					sec:authorize="hasAnyAuthority('CREATOR', 'ADMIN', 'EDITOR')" 
+					type="button"
+					class="material-icons" 
+					data-toggle="modal" 
+					data-target="#addModal">person_add</button>
+
+			&nbsp; &nbsp;
+			<a th:href="@{/clientes9/clientes/export/pdf}" class="material-icons" id="btnPrint"
+				title="Exportar PDF">print</a>
+
+			<nav class="navbar navbar-light bg-light">
+				<form class="form-inline" th:action="@{/clientes/getAll}">
+					<input class="form-control mr-sm-2" 
+					       id="myInput" 
+					       size="50" 
+					       type="text"
+					       placeholder="Filtrar Clientes......">
+					       
+					       <button class="material-icons" type="button" value="Clear" id="btnClear"
+							onclick="clearSearch()">clear</button>
+				</form>
+			</nav>
+			
+			<table class="table table-striped table-bordered thead-dark table-responsive-md">
+				<thead class="bg-info text-white">
+
+					<tr>
+						<th>
+							<a id="aLink"
+								th:href="@{'/clientes/getAll/page/' + ${currentPage} + '?sortField=idcliente&sortDir=' + ${reverseSortDir}}">
+								ID</a>
+						</th>
+
+						<th>
+							<a id="aLink"
+								th:href="@{'/clientes/getAll/page/' + ${currentPage} + '?sortField=nome&sortDir=' + ${reverseSortDir}}">
+								Nome</a>
+						</th>
+
+						<th>
+							<a id="aLink"
+								th:href="@{'/clientes/getAll/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">
+								E-mail</a>
+						</th>
+
+						<th>
+							<a id="aLink"
+								th:href="@{'/clientes/getAll/page/' + ${currentPage} + '?sortField=telefone&sortDir=' + ${reverseSortDir}}">
+								Telefone</a>
+						</th>
+
+						<th>
+							<a id="aLink"
+								th:href="@{'/clientes/getAll/page/' + ${currentPage} + '?sortField=endereco&sortDir=' + ${reverseSortDir}}">
+								Endereço</a>
+						</th>
+						<th>
+							<a id="aLink"
+								th:href="@{'/clientes/getAll/page/' + ${currentPage} + '?sortField=nip&sortDir=' + ${reverseSortDir}}">
+								NIP</a>
+						</th>
+						<th>
+							<a id="aLink"
+								th:href="@{'/clientes/getAll/page/' + ${currentPage} + '?sortField=energia&sortDir=' + ${reverseSortDir}}">
+								Energia</a>
+						</th>
+						<td>Descrição</td>
+						<td>Editar</td>
+						<td>Excluir</td>
+					</tr>
+				</thead>
+
+				<tbody id="myTable">
+					<tr th:each="cliente: ${listClientes}">
+
+						<td th:text="${cliente.idcliente}"></td>
+						<td th:text="${cliente.nome}"></td>
+						<td th:text="${cliente.email}"></td>
+						<td th:text="${cliente.telefone}"></td>
+						<td th:text="${cliente.endereco}"></td>
+						<td th:text="${cliente.nip}"></td>
+						<td th:text="${cliente.energia}"></td>
+						<td th:text="${cliente.descricao}"></td>
+
+						<td>
+							<a th:href="@{/clientes/getOne/(Id=${cliente.idcliente})}" class="btn btn-warning" id="editButton"
+								sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')">Editar
+
+							</a>
+						</td>
+
+						<td>
+							<a sec:authorize="hasAuthority('ADMIN')" th:href="@{/clientes/delete/(Id=${cliente.idcliente})}"
+								class="btn btn-danger" id="deleteButton" >Excluir
+							</a>
+						</td>
+					</tr>
+				</tbody>
+				<!-- remove_red_eye -->
+			</table>
+
+
+			<footer style="font-size: large" class="panel-footer">
+				<div th:if="${totalPages > 1}">
+					<div class="row col-sm-10">
+						<div class="pagination">
+							&nbsp; Total Items: <b>&nbsp;[[${totalItems}]]&nbsp;&nbsp;</b> [Page]: &nbsp; [
+							[[${currentPage}]] - [[${totalPages}]] ] &nbsp;
+						</div>
+
+						<div class="pagination">
+							<a class="page-link" th:if="${totalPages}" th:href="@{'/clientes/getAll'}">Previous</a>
+							<span th:unless="${totalPages}">Previous</span>
+						</div>
+
+
+						<div class="pagination">
+							<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+								<a class="page-link" th:if="${currentPage != i}"
+									th:href="@{'/clientes/getAll/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+								<span th:unless="${currentPage != i}">[[${i}]]</span>
+							</span>
+						</div>
+
+
+						<div class="pagination">
+							<a class="page-link" th:if="${currentPage < totalPages}"
+								th:href="@{'/clientes/getAll/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+							<span th:unless="${currentPage < totalPages}"></span>
+						</div>
+
+						<div class="pagination">
+							<a class="page-link" th:if="${currentPage < totalPages}"
+								th:href="@{'/clientes/getAll/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+							<span th:unless="${currentPage < totalPages}"></span>
+						</div>
+					</div>
+				</div>
+		</div>
+		</footer>
+	</div>
+
+	</div><!-- /.container -->
+
+	<!--  BEGIN MODAL CREATE CLIENTE-->
+
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<form th:action="@{/clientes/addNew}" method="post">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Novo Cliente</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<!--
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Id:</label>
+            <input type="text" class="form-control" id="recipient-name" name="Id">
+          </div>
+		  -->
+						<div class="form-group">
+							<b for="recipient-name" class="col-form-label">Nome:</b>
+							<input type="text" class="form-control" id="recipient-name" name="nome"
+								placeholder="Ex.. Cliente xxxxx!">
+						</div>
+
+						<div class="form-group">
+							<b for="recipient-name" class="col-form-label">E-mail:</label>
+							<input type="text" class="form-control" id="recipient-name" name="email"
+								placeholder="teste@teste.com...">
+						</div>
+
+						<div class="form-group">
+							<b for="recipient-name" class="col-form-label">Telefone:</label>
+							<input type="text" class="form-control" id="recipient-name" name="telefone"
+								placeholder="999 99 99">
+						</div>
+						
+						<div class="form-group">
+							<b for="recipient-name" class="col-form-label">Endereço:</label>
+							<input type="text" class="form-control" id="recipient-name" name="endereco"
+								placeholder="Rua 8 de Setembro">
+						</div>
+						
+						<div class="form-group">
+							<b for="recipient-name" class="col-form-label">NIP:</label>
+							<input type="text" class="form-control" id="recipient-name" name="nip"
+								placeholder="1010101010-1">
+						</div>
+						
+						<div class="form-group">
+								<b> Selecione o Tipo Energia:</b>
+								<select name="Energia" class="form-control">
+									<option th:each="energiaOpt : ${T(st.evora.engenharia.enums.Energia).values()}"
+										th:value="${energiaOpt}" th:text="${energiaOpt}"></option>
+								</select>
+							</div>
+							
+						<div class="form-group">
+								<b for="recipient-name">Descrição</b>
+								<textarea class="form-control" id="recipient-name" rows="3" name="descricao"></textarea>
+							</div>
+					</div>
+					<div class="modal-footer">
+						<button id="btnSave" type="submit" class="material-icons">check_circle</button>
+						<button id="btnCancel" type="button" class="material-icons" data-dismiss="modal">cancel</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!--  END MODAL CREATE CLIENTE-->
+
+	
+	<!--  BEGIN MODAL EDIT CLIENTE -->
+	
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+		<form th:action="@{/clientes/update}" method="put">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editModalLabel">Editar Cliente</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<div class="form-group">
+							<b for="recipient-name" class="col-form-label">Id:</label>
+							<input type="text" class="form-control" id="idclienteEdit" name="idcliente" readonly="idcliente">
+						</div>
+
+						<div class="form-group">
+							<b for="recipient-name" class="col-form-label">Nome:</b>
+							<input type="text" class="form-control" id="nomeEdit" name="nome">
+						</div>
+						
+						<div class="form-group">
+							<b for="recipient-name" class="col-form-label">E-mail:</b>
+							<input type="text" class="form-control" id="emailEdit" name="email">
+						</div>
+						
+						<div class="form-group">
+							<b for="recipient-name" class="col-form-label">Telefone:</b>
+							<input type="text" class="form-control" id="telefoneEdit" name="telefone">
+						</div>
+						
+						<div class="form-group">
+							<b for="recipient-name" class="col-form-label">Endereço:</b>
+							<input type="text" class="form-control" id="enderecoEdit" name="endereco">
+						</div>
+						
+						<div class="form-group">
+							<b for="recipient-name" class="col-form-label">NIP:</b>
+							<input type="text" class="form-control" id="nipEdit" name="nip">
+						</div>
+						
+						<div class="form-group">
+							<b for="recipient-name" class="col-form-label">Energia:</b>
+								<select id="energiaEdit" name="energia" class="form-control">
+	                            <option value="PÓS_PAGO">PÓS-PAGO</option>
+	                            <option value="PRÉ_PAGO">PRÉ-PAGO</option>
+                       		</select>
+						</div>
+						
+						<div class="form-group">
+								<b for="recipient-name">Descrição</b>
+								<textarea class="form-control" id="descricaoEdit" rows="3" name="descricao"></textarea>
+							</div>
+
+					</div>
+					
+					<div class="modal-footer">
+						<button id="btnSave" type="submit" class="material-icons">check_circle</button>
+						<button id="btnCancel" type="button" class="material-icons" data-dismiss="modal">cancel</button>
+					</div>
+					
+				</div>
+			</div>
+		</form>
+		
+		</div>
+		
+	<!--  END MODAL EDIT CLIENTE -->
+	
+	<!--  BEGIN MODAL DELETE CLIENTE -->
+
+	<div class="modal" tabindex="-1" role="dialog" id="deleteModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Confirma Exclusão!</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Deseja realmente excluir o registo?</p>
+				</div>
+				<div class="modal-footer">
+
+					<a href="" class="material-icons" id="delRef">check_circle</a>
+					<button type="button" class="material-icons" data-dismiss="modal" id="btnCancel">cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--  END MODAL DELETE CLIENTE -->
+	
+	<!--  BEGIN Script Filtrar Chamados -->
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#myInput").on("keyup", function () {
+				var value = $(this).val().toLowerCase();
+				$("#myTable tr").filter(function () {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+	</script>
+
+	<!--  END Script Filtrar Chamados -->
+
+
+	<!--  BEGIN Script Limpar pesquisa Chamados -->
+
+	<script type="text/javascript">
+		function clearSearch() {
+			window.location = "[[@{/clientes/getAll}]]";
+		}
+	</script>
+
+	<!--  END Script Limpar pesquisa Chamados -->
+</body>
+
+</html>

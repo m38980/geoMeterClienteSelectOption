@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://thymeleaf.org">
+
+<head>
+<title>| GeoMeter |</title>
+</head>
+
+<body>
+	<div class="alert alert-success alert-dismissible" role="alert"
+		th:if="${not #strings.isEmpty(mensagem)}">
+
+		<span th:text="${mensagem}"></span>
+	</div>
+
+	<div class="alert alert-success alert-danger" role="alert"
+		th:if="${not #strings.isEmpty(mensagem_erro)}">
+
+		<span th:text="${mensagem_erro}"></span>
+	</div>
+
+
+<!-- BEGIN POPUP SUCCESS -->
+	
+	<script th:src="@{/assets/izitoast/js/iziToast.min.js}"></script>
+
+<script>
+    $('button[type="submit"]').click(function (event) {
+        event.preventDefault();
+
+        $.post("/clientes", {'cliente': $('#cliente').val()}, function () {
+            iziToast.show({
+                title: 'Success',
+                message: 'Cliente Adicionado!',
+                position: 'topRight',
+                timeout: 500000,
+                color: 'green'
+            });
+
+        }).fail(function () {
+            iziToast.show({
+                title: 'Fail',
+                message: 'Cliente não Adicionado!',
+                position: 'topRight',
+                color: 'red'
+            });
+        });
+    });
+</script>
+
+<!-- END POPUP SUCCESS -->
+
+</body>
+
+</html>

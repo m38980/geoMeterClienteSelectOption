@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<link href="/webjars/bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet" />
+<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/main.js" th:src="@{/main.js}"></script>
+
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<meta charset="ISO-8859-1">
+<title>Editar Clientes</title>
+</head>
+<body>
+<style>
+
+a {
+		margin-right: 900px;
+		margin-left: -171px;	
+}
+#btnListaCliente{
+	font-size:30px;
+	margin-left: -265px;
+}
+
+#btnGuardar{
+	
+	margin-left: -1025px;
+}
+
+</style>
+	<div class="container">
+		<div align="center"> 
+        <h1>Editar Cliente!</h1>
+        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+        <a id="btnListaCliente" class="material-icons" 
+        title="Lista de Clientes" 
+        href="/clientes" 
+        role="button">undo</a>
+        
+        <br /><br />
+        <form action="#" th:action="@{'/clientes/update/' + ${cliente.idcliente}}" th:object="${cliente}"
+            method="post">
+ 
+            <div class="form-group">
+                
+                <div class ="form-group">
+							<input
+							type = "text"
+							name = "nome"
+							th:field = "*{nome}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "email"
+							th:field = "*{email}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "telefone"
+							th:field = "*{telefone}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "endereco"
+							th:field = "*{endereco}"
+							class = "form-control"			
+							/>
+				</div>
+              	<div class ="form-group">
+							<input
+							type = "text"
+							name = "nip"
+							th:field = "*{nip}"
+							class = "form-control"			
+							/>
+				</div> 
+				<div class="form-group">
+							<label> Selecione o Tipo de Energia:</label>
+							<select name="energia" class="form-control">
+								<option th:each="energiaOpt : ${T(st.evora.engenharia.enums.Energia).values()}"
+									    th:value="${energiaOpt}" th:text="${energiaOpt}" 
+                                        th:field = "*{energia}"></option>
+							</select>
+				</div>
+				<div class ="form-group">
+							<label for="recipient-name">Descrição</label>
+							<textarea class="form-control"
+							type = "text"
+							name = "descricao"
+							th:value="${descricao}"
+							th:field = "*{descricao}">
+							
+							</textarea>		
+							
+				</div>
+			           
+                <tr>
+                    <td colspan="2"><button id="btnGuardar" type="submit" class="btn btn-outline-success">Guardar</button> </td>
+                </tr>
+            </div>
+        </form>
+    </div>
+	</div>
+</body>
+</html>

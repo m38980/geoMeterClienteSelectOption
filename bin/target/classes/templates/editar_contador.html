@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Editar Contador</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+	
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+
+	
+</head>
+<body>
+<style>
+
+a {
+		margin-right: 900px;
+		margin-left: -171px;	
+}
+#btnGuardar{
+	
+	margin-left: -1025px;
+}
+#btnListaContador{
+	font-size:30px;
+	margin-left: -210px;
+}
+
+</style>
+	<div class="container">
+		<div align="center"> 
+        <h1>Editar Contador</h1>
+        &nbsp &nbsp &nbsp &nbsp <a id="btnListaContador" 
+        class="material-icons" 
+        href="/contadores"
+        role="button" 
+        title="Listar Contadores">undo</a>
+        <br /><br />
+        <form action="#" th:action="@{'/contadores/updatecontador/' + ${contador.idcontador}}" th:object="${contador}"
+            method="post">
+ 
+           	<div class="form-group">
+                
+                <div class ="form-group">
+							<input
+							type = "text"
+							name = "conta_numero"
+							th:field = "*{conta_numero}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				 <div class ="form-group">
+							<input
+							type = "text"
+							name = "numero_contador"
+							th:field = "*{numero_contador}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "latitude"
+							th:field = "*{latitude}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "longitude"
+							th:field = "*{longitude}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "leitura_anterior"
+							th:field = "*{leitura_anterior}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "nova_leitura"
+							th:field = "*{nova_leitura}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "ramal"
+							th:field = "*{ramal}"
+							class = "form-control"			
+							/>
+				</div>
+				
+				<div class ="form-group">
+							<input
+							type = "text"
+							name = "descricao"
+							th:field = "*{descricao}"
+							class = "form-control"			
+							/>
+				</div>
+           	</div>                          
+                <tr>
+                    <td colspan="2"><button id="btnGuardar" type="submit" class="btn btn-outline-success">Guardar</button> </td>
+                </tr>
+ 
+ 
+ 
+        </form>
+    </div>
+	</div>
+</body>
+</html>

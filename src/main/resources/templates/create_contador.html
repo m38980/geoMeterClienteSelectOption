@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<link href="/webjars/bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet" />
+<script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/main.js" th:src="@{/main.js}"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<meta charset="ISO-8859-1">
+<title>Gestão de Clientes</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-md bg-info navbar-dark">
+	</nav>
+
+	<style>
+		#btnVoltar {
+			font-size: 30px;
+			margin-left: 0px;
+			color: #17a2b8;
+		}
+
+		#btnSearch {
+
+			color: #17a2b8;
+			border: 0px;
+			background-color: transparent;
+			font-size: 30px;
+			margin-left: 450px;
+			margin-top: -90px !important;
+		}
+
+		#btnClear {
+
+			color: red;
+			border: 0px;
+			background-color: transparent;
+			font-size: 30px;
+			margin-left: 500px;
+			margin-top: -300px !important;
+		}
+
+		#keyword {
+			width: 80%;
+		}
+	</style>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div id="container" class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+				<h1 class="text-center"> Adicionar novo Contador </h1>
+				<div class="card-body">
+
+					<div class="card-body">
+						<a id="btnVoltar" class="material-icons" title="Lista de Clientes" th:href="@{/contadores}"
+							role="button">undo</a> <br /><br />
+						<form th:action="@{/contadores/save}" th:object="${contador}" method="POST">
+
+
+							<div class="form-group">
+								<label> Nº de Conta: </label>
+								<input type="text" name="conta_numero" th:field="*{conta_numero}" class="form-control"
+									placeholder="Nº de Conta" />
+							</div>
+
+							<div class="form-group">
+								<label> Nº Contador: </label>
+								<input type="text" name="numero_contador" th:field="*{numero_contador}"
+									class="form-control" placeholder="Nº de Contador" />
+							</div>
+							<!--
+							<div class="form-group">
+								<label> Latitude: </label>
+								<input type="text" name="latitude" th:field="*{latitude}" class="form-control"
+									placeholder="Latitude" />
+							</div>
+							
+							<div class="form-group">
+								<label> Longitude: </label>
+								<input type="text" name="longitude" th:field="*{longitude}" class="form-control"
+									placeholder="Longitude" />
+							</div>
+							-->
+
+							<div class="form-group">
+								<label> Leitura Anterior: </label>
+								<input type="text" name="leitura_anterior" th:field="*{leitura_anterior}"
+									class="form-control" placeholder="Leitura Anterior" />
+							</div>
+
+							<div class="form-group">
+								<label> Nova Leitura: </label>
+								<input type="text" name="nova_leitura" th:field="*{nova_leitura}" class="form-control"
+									placeholder="Nova Leitura" />
+							</div>
+
+							<div class="form-group">
+								<label> Selecione a Localização:</label>
+								<select name="Localizacao" class="form-control">
+									<option
+										th:each="localizacaoOpt : ${T(st.evora.engenharia.enums.Localizacao).values()}"
+										th:value="${localizacaoOpt}" th:text="${localizacaoOpt}"></option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label> Selecione a Amperagem:</label>
+								<select name="Amperagem" class="form-control">
+									<option th:each="amperagemOpt : ${T(st.evora.engenharia.enums.Amperagem).values()}"
+										th:value="${amperagemOpt}" th:text="${amperagemOpt}"></option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label> Selecione o Ramal:</label>
+								<select name="Ramal" class="form-control">
+									<option th:each="ramalOpt : ${T(st.evora.engenharia.enums.Ramal).values()}"
+										th:value="${ramalOpt}" th:text="${ramalOpt}"></option>
+								</select>
+							</div>
+
+
+							<div class="form-group">
+								<label> Selecione a Cidade:</label>
+								<select name="cidade" class="form-control">
+									<option th:each="cidadeOpt : ${T(st.evora.engenharia.enums.Cidade).values()}"
+										th:value="${cidadeOpt}" th:text="${cidadeOpt}"></option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label> Selecione o Distrito:</label>
+								<select name="distrito" class="form-control">
+									<option th:each="distritoOpt : ${T(st.evora.engenharia.enums.Distrito).values()}"
+										th:value="${distritoOpt}" th:text="${distritoOpt}"></option>
+								</select>
+							</div>
+
+
+							<div class="form-group">
+								<label for="recipient-name">Descrição</label>
+								<textarea class="form-control" id="recipient-name" rows="3" name="descricao"></textarea>
+							</div>
+							
+							<div class="form-group">
+								<label> Associar Cliente: </label>
+								<input id="clientes" 
+									   th:href="@{'/clientes/getAll}" 
+									   type="text" 
+									   class="form-control" 
+									   placeholder="Click aqui!" />
+
+							</div>
+
+							<div class="box-footer">
+								<button type="submit" class="btn btn-outline-success">
+									Guardar
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+</body>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+						aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Selecione o Cliente</h4>
+			</div>
+			
+			<div class="modal-body">
+				<select name="cliente" id="cliente" class="form-control">
+					<option th:each="cliente: ${listClientes}"
+					
+							th:value="${cliente.idcliente}"
+							th:text="${cliente.nome}">
+							
+					</option>
+				</select>
+			</div>
+			
+			<div class="modal-footer">
+				<span class="error"></span>
+				<button id="submit" type="button" class="btn btn-primary">Sim, Salvar</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$('#clientes').focus(function () {
+		//open bootsrap modal
+		$('#myModal').modal({
+			show: true
+		});
+	});
+</script>
+
+</html>
